@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
-import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+const bcrypt = require("bcryptjs");
 
 const UserSchema = mongoose.Schema(
   {
@@ -14,6 +13,7 @@ const UserSchema = mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      match: /.+\@.+\..+/,
       trim: true,
       lowercase: true,
     },
@@ -29,6 +29,9 @@ const UserSchema = mongoose.Schema(
     },
     totalRewards: {
       type: Number,
+    },
+    avatar: {
+      type: Buffer,
     },
   },
   {
@@ -46,4 +49,4 @@ UserSchema.pre("save", async function (next) {
 
 // admin create
 
-export const User = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("User", UserSchema);

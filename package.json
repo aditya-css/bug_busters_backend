@@ -1,0 +1,27 @@
+{
+  "name": "metastack",
+  "version": "1.0.0",
+  "description": "MetaStack",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "env-cmd -f Metastack.env nodemon server.js"
+  },
+  "keywords": [
+    "NodeJs",
+    "and",
+    "MongoDB"
+  ],
+  "author": "pradip",
+  "license": "ISC",
+  "dependencies": {
+    "env-cmd": "^10.1.0",
+    "express": "^4.17.3",
+    "joi": "^17.6.0",
+    "mongoose": "^6.2.9"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

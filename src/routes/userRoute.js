@@ -14,5 +14,4 @@ router.get("/:id", userController.viewUser);
 router.put("/updateUser/:id", auth, userController.editUser);
 router.put("/updateTotalRewards/:id", userController.updateTotalRewards);
 router.put("/updatePublicAddress/:id", userController.updatePublicAddress);
-
 module.exports = router;

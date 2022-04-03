@@ -36,7 +36,35 @@ const loginUser = async(req, res) => {
         console.log(e);
     }
 };
+const viewUsers = async(req,res)=>{
+    try {
+      const user = await User.find();
+      res.status(message.OK_CODE).send(user);
+    } catch (e) {
+      console.log(e)
+    }
+}
+  const viewUser = async(req,res)=>{
+    try {
+      const user = await User.find(req.params.id);
+      res.status(message.OK_CODE).send(user);
+    } catch (e) {
+      console.log(e)
+    }
+}
+const editUser = async(req,res) =>{
+   try {
+       const user = await User.findByIdAndUpdate(req.params.id ,{ $set :req.body},{new:true});
+       res.status(message.OK_CODE).send(user);
+   } catch (e) {
+       console.log(e);
+   } 
+}
 module.exports = {
     createUser,
     loginUser,
+    viewUsers,
+    viewUser,
+    editUser
+
 };

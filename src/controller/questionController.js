@@ -13,11 +13,15 @@ const totalQuestion = async(req, res) => {
 }
 const viewQuestions = async(req, res) => {
     try {
-        const questionData = await Question.find()
-        //.populate('user_Id')
+
+        const questionData = await Question.find().populate('user_Id')
+
         res.status(message.OK_CODE).send(questionData)
+
     } catch (error) {
+
         res.status(message.INTERNAL_SERVER_ERROR_CODE).send(error)
+
     }
 }
 const ansOfQuestion = async(req, res) => {

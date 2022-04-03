@@ -4,20 +4,19 @@ const message = require("../utils/message");
 const bcrypt = require("bcryptjs");
 const { generateAuthToken } = require("../middleware/auth.js");
 // user register controller
-const createUser = async(req, res) => {
-
-    console.log(req.body);
+const createUser = async(req, res, next) => {
     try {
         const { name, email, password, totalRewards, publicAddress, avatar } = req.body;
         const user = { name, email, password, totalRewards, publicAddress, avatar };
         const data = await new User(user).save();
         res.status(message.OK_CODE).send(data);
+
     } catch (e) {
-        console.log(e);
+        next(e)
     }
 };
 // login for user
-const loginUser = async(req, res) => {
+const loginUser = async(req, res, next) => {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
@@ -33,38 +32,70 @@ const loginUser = async(req, res) => {
             "token": token
         });
     } catch (e) {
-        console.log(e);
+        next(e);
     }
 };
-const viewUsers = async(req,res)=>{
+//view User
+const viewUsers = async(req, res, next) => {
     try {
-      const user = await User.find();
-      res.status(message.OK_CODE).send(user);
+        const user = await User.find();
+        res.status(message.OK_CODE).send(user);
     } catch (e) {
-      console.log(e)
+        next(e);
     }
 }
-  const viewUser = async(req,res)=>{
+const updateTotalRewards = async(req, res, next) => {
     try {
-      const user = await User.find(req.params.id);
-      res.status(message.OK_CODE).send(user);
-    } catch (e) {
-      console.log(e)
+        const questionData = await User.findByIdAndUpdate(req.params.id, {
+            $set: {
+                totalRewards: req.body.totalRewards
+            }
+        }, {
+            new: true
+        })
+        res.status(message.OK_CODE).send(questionData)
+    } catch (error) {
+        res.status(message.INTERNAL_SERVER_ERROR_CODE).send(e);
     }
 }
-const editUser = async(req,res) =>{
-   try {
-       const user = await User.findByIdAndUpdate(req.params.id ,{ $set :req.body},{new:true});
-       res.status(message.OK_CODE).send(user);
-   } catch (e) {
-       console.log(e);
-   } 
+const updatePublicAddress = async(req, res, next) => {
+    try {
+        const questionData = await User.findByIdAndUpdate(req.params.id, {
+            $set: {
+                publicAddress: req.body.publicAddress
+            }
+        }, {
+            new: true
+        })
+        res.status(message.OK_CODE).send(questionData)
+    } catch (error) {
+        res.status(message.INTERNAL_SERVER_ERROR_CODE).send(e);
+    }
+}
+
+const viewUser = async(req, res, next) => {
+        try {
+            const user = await User.findById(req.params.id);
+            res.status(message.OK_CODE).send(user);
+        } catch (e) {
+            next(e);
+        }
+    }
+    //user profile edit
+const editUser = async(req, res, next) => {
+    try {
+        const user = await User.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
+        res.status(message.OK_CODE).send(user);
+    } catch (e) {
+        next(e);
+    }
 }
 module.exports = {
     createUser,
     loginUser,
     viewUsers,
     viewUser,
-    editUser
-
+    editUser,
+    updateTotalRewards,
+    updatePublicAddress
 };

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 //Schema For Question Model.
 const questionSchema = new mongoose.Schema({
-    userId: {
+    user_Id: {
         type: mongoose.Schema.ObjectId,
         ref: "User",
     },
